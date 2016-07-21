@@ -3,6 +3,7 @@
 import sys
 from sys import stdout
 from time import sleep
+from subprocess import call
 import threading
 
 time = 2
@@ -35,6 +36,9 @@ def get_sign():
 def write_results():
 	stdout.write("\r%s  %s%s%s" % (sign, ('*' * (total_items-counter)), ('.' * counter), "|"))
 	stdout.flush()
+
+def beep():
+	call(["echo", "-n", "\a"])
 
 class IncrementThread(threading.Thread):
 	def __init__(self):
@@ -69,6 +73,8 @@ threads.append(thread2)
 # Wait for all threads to complete
 for t in threads:
     t.join()
+
+beep()
 stdout.write("\rDone%s" % (" " * (total_items + 1)))
 stdout.flush()
 print
